@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ blog.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        small {
+            color: #888;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            background: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+        a:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ blog.title }}</h1>
+        <p>{{ blog.content }}</p>
+        <small>Created at: {{ blog.created_at|date:"M d, Y H:i" }}</small>
+        <br><br>
+        <a href="{% url 'dashboard' %}">⬅ Back to Dashboard</a>
+    </div>
+</body>
+</html>

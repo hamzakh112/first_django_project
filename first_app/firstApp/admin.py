@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import blog
-admin.site.register(blog)
+from .models import Blog   # ✅ Use capital B
 
-# Register your models here.
+admin.site.register(Blog)

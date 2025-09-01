@@ -1,31 +1,27 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import logout
 from django.contrib import messages
-from django.views import View
-from .models import blog
+from .models import Blog
+
+USERS = {}  # temporary storage without DB
 
 def index(request):
     return render(request, 'index.html')
-USERS = {}
 
 def signup_view(request):
     if request.method == "POST":
         username = request.POST.get('username', '').strip()
         password = request.POST.get('password', '').strip()
-       
 
         if not username or not password:
             messages.error(request, "Username aur password zaroori hain.")
             return render(request, 'signup.html')
 
-        if username in USERS:  # check without DB
+        if username in USERS:
             messages.error(request, "Ye username already taken hai.")
             return render(request, 'signup.html')
 
-        # Save in dict instead of DB
         USERS[username] = password
-        print(username, password)
         messages.success(request, "Account ban gaya! Ab login karein.")
         return redirect('login')
 
@@ -36,9 +32,8 @@ def login_view(request):
         username = request.POST.get('username', '').strip()
         password = request.POST.get('password', '').strip()
 
-        # check from USERS dict
         if username in USERS and USERS[username] == password:
-            request.session['user'] = username  # save in session
+            request.session['user'] = username
             messages.success(request, f"Welcome {username}!")
             return redirect('dashboard')
         else:
@@ -51,44 +46,19 @@ def dashboard_view(request):
     if not user:
         return redirect('login')
 
-    # users_list = [
-    #     {"name": "Hamza", "age": 28, "email": "hamza@email.com", "number": "03001234567"},
-    #     {"name": "Ali", "age": 25, "email": "ali@email.com", "number": "03111234567"},
-    #     {"name": "Ayesha", "age": 21, "email": "ayesha@email.com", "number": "03211234567"},
-    #     {"name": "Usman", "age": 30, "email": "usman@email.com", "number": "03331234567"},
-    #     {"name": "Zara", "age": 23, "email": "zara@email.com", "number": "03451234567"},
-    #     {"name": "Bilal", "age": 27, "email": "bilal@email.com", "number": "03561234567"},
-    # ]
+    blogs = Blog.objects.all().order_by('-created_at')
 
-    # context = {
-    #     "username": user,
-    #     "users": users_list
-    # }
+    context = {
+        "username": user,
+        "blogs": blogs
+    }
+    return render(request, "dashboard.html", context)
 
-    return render(request, "dashboard.html", )
+def blog_detail_view(request, blog_id):
+    single_blog = get_object_or_404(Blog, id=blog_id)
+    return render(request, "blog.html", {"blog": single_blog})
 
 def logout_view(request):
     logout(request)
     messages.info(request, "You have been logged out.")
     return redirect('index')
-def DashboardView(View):
- class DashboardView(View):
-    def get(self, request):
-      blogs=blogs.objects.all()
-      context={'blogs':blogs}
-      return render(request, 'dashboard.html', context)
-class BlogDetailView(View):
-    def get(self, request, ):
-        return render(request, 'blog.html')
-class DashboardView(View):
-    def get(self, request):
-        blogs = blog.objects.all()
-        context = {'blogs': blogs}
-        return render(request, 'dashboard.html', context)
-
-
-class BlogDetailView(View):
-    def get(self, request, blog_id):
-        single_blog = blog.objects.get(id=blog_id)
-        context = {'blog': single_blog}
-      
