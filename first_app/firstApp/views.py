@@ -62,3 +62,25 @@ def logout_view(request):
     logout(request)
     messages.info(request, "You have been logged out.")
     return redirect('index')
+
+def create_blog_view(request):
+    user = request.session.get('user')
+    if not user:
+        return redirect('login')
+
+    if request.method == "POST":
+        title = request.POST.get('title', '').strip()
+        content = request.POST.get('content', '').strip()
+
+        if not title or not content:
+            messages.error(request, "Title aur content dono zaroori hain.")
+            return render(request, 'create_blog.html')
+
+        Blog.objects.create(title=title, content=content)
+
+        print(title, content)
+        Blog.objects.create(title=title, content=content)
+        messages.success(request, "Blog post create ho gaya!")
+        return redirect('dashboard')
+
+    return render(request, 'create_blog.html')

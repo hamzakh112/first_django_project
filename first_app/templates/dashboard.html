@@ -88,7 +88,11 @@
 </head>
 <body>
   <div class="container">
+    <div>
+      <a href="{% url 'create_blog' %}" class="logout" style="background: #4CAF50; margin-right: 10px;">+ New Blog</a>
+    </div>
     <a href="{% url 'logout' %}" class="logout">Logout</a>
+    
     <h2>Welcome, {{ username }} 👑</h2>
 
     <h3>🔥 Latest Blogs</h3>
