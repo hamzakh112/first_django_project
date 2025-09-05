@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'firstApp'
+    'firstApp',
 ]
 LOGIN_REDIRECT_URL = "index"     # login ke baad yahan bhej do
 LOGOUT_REDIRECT_URL = "index"    # logout ke baad yahan bhej do
@@ -113,6 +113,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+AUTH_USER_MODEL = 'firstApp.User'
 
 
 # Static files (CSS, JavaScript, Images)
