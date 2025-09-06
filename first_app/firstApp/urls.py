@@ -13,6 +13,9 @@ urlpatterns = [
     path('create_blog/', views.create_blog_view ,name='create_blog'),
     path('edit_blog/<int:blog_id>/', views.edit_blog_view, name='edit_blog'),
     path('delete_blog/<int:blog_id>/', views.delete_blog_view, name='delete_blog'),
+    path('verify-otp/', views.verify_otp_view, name='verify_otp'),
+    path("resend-otp/", views.resend_otp_view, name="resend_otp"),
+
 ]
 
 if settings.DEBUG:  
